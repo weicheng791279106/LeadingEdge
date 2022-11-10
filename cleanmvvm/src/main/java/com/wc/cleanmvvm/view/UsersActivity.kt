@@ -15,7 +15,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.loongwind.ardf.recycleview.BaseBindingAdapter
 import com.loongwind.ardf.recycleview.BaseBindingAdapter.ListClick
-import com.wc.basic.liveData
 import com.wc.basic.observe
 import com.wc.cleanmvvm.*
 import com.wc.cleanmvvm.databinding.ActivityMainBinding

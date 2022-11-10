@@ -1,12 +1,19 @@
 package com.loongwind.ardf.recycleview
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
-import androidx.databinding.*
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableList
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 
 class BaseBindingAdapter<T:Any, BINDING : ViewDataBinding> (val layoutRes:Int):
     RecyclerView.Adapter<BindingViewHolder<T>>() {
@@ -135,7 +142,54 @@ class BaseBindingAdapter<T:Any, BINDING : ViewDataBinding> (val layoutRes:Int):
         fun onViewClick(v:View,item:T,pos: Int){}
     }
 
+
+
+
+
+
+
+
+
+
+
+    interface LoadMoreCallback{
+        fun onLoadMore()
+    }
+
+    /**监听滑动到底部*/
+    class OnLoadModeCallback(val loadModeCallback: LoadMoreCallback)
+        : RecyclerView.OnScrollListener() {
+        /**用来标记是否正在向上滑动*/
+        private var isSlidingUpward = false
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            val manager = recyclerView.layoutManager as LinearLayoutManager?
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) { // 当不滑动时
+                //获取最后一个完全显示的itemPosition
+                val lastItemPosition = manager!!.findLastCompletelyVisibleItemPosition()
+                val itemCount = manager.itemCount
+                // 判断是否滑动到了最后一个item，并且是向上滑动
+                if (lastItemPosition == itemCount - 1 /*&& isSlidingUpward*/) {
+                    //加载更多
+                    loadModeCallback.onLoadMore()
+                }
+            }
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            // 大于0表示正在向上滑动，小于等于0表示停止或向下滑动
+            isSlidingUpward = dy > 0
+        }
+
+    }
+
 }
+
+
+
+
 
 /**header & footer数据变动监听*/
 class ListChangeCallback(val adapter:RecyclerView.Adapter<*>) : ObservableList.OnListChangedCallback<ObservableArrayList<ViewDataBinding>>(){

@@ -11,8 +11,3 @@ import androidx.lifecycle.ViewModel
  * Date:  2022/11/1
  *
  */
-fun <T : Any> ViewModel.liveData(data:T?) = lazy {
-    val liveData: MutableLiveData<T> = MutableLiveData<T>()
-    liveData.postValue(data)
-    liveData
-}

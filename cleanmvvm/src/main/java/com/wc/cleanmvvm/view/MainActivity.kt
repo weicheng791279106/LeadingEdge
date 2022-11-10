@@ -8,7 +8,6 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.wc.basic.id
-import com.wc.basic.liveData
 import com.wc.basic.observe
 import com.wc.cleanmvvm.databinding.ActivityMainBinding
 import com.wc.cleanmvvm.view.LoginActivity
@@ -31,7 +30,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(){}
 
 class MainViewModel : BaseViewModel(){
 
-    val userInfo by liveData<UserInfo>(UserInfo("click to start request"))
+    val userInfo = MutableLiveData<UserInfo>(UserInfo("click to start request"))
 
     override fun onClick(v: View?) {
         when(v?.id) {

@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.*
-import com.wc.basic.liveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,11 +16,18 @@ import java.lang.Exception
  * Author: weicheng
  * Date:  2022/10/31
  */
+
+
+
 open class BaseViewModel : ViewModel() , LifecycleEventObserver , View.OnClickListener{
 
     val TAG:String = this.javaClass.simpleName
 
-    val status by liveData<Int>(NORMAL)
+    val status = MutableLiveData<Int>(NORMAL)
+    val loadMoreState = MutableLiveData<String>(LOADMORE_STATE_COMPLETE)
+
+    var pageNo = -1
+    var pageSize = 6
 
     /**
      * 生命周期改变时逻辑处理，子类重写
@@ -81,24 +87,38 @@ open class BaseViewModel : ViewModel() , LifecycleEventObserver , View.OnClickLi
     fun <T> listRequest(
         listData: ObservableArrayList<T>,
         request: suspend CoroutineScope.() -> Response<List<T>>,
+        isLoadMore:Boolean = false,
         err: (String) -> Unit = {},
         end: () -> Unit = {},
     ){
+        if(isLoadMore && (loadMoreState.value.equals(LOADMORE_STATE_END) || loadMoreState.value.equals(LOADMORE_STATE_LOADING))) return
         viewModelScope.launch {
             try{
-                status.postValue(LOADING)
+                Log.d("aaa","pageNo${pageNo}")
+                if(pageNo < 0)  status.postValue(LOADING)
+                else if(isLoadMore){
+                    loadMoreState.value = LOADMORE_STATE_LOADING
+                    Log.d("aaa","value${loadMoreState.value},Thread:${Thread.currentThread().name}")
+                }
                 val response = request()
                 if(response.code == SUCCEED){
                     status.postValue(NORMAL)
-                    listData.clear()
+                    if(!isLoadMore) listData.clear()
+                    else {
+                        if(response.data.size < pageSize) loadMoreState.value = LOADMORE_STATE_END
+                        else loadMoreState.value = LOADMORE_STATE_COMPLETE
+                    }
                     listData.addAll(response.data)
+                    pageNo++
                 }else{
                     status.postValue(ERROR)
+                    if(isLoadMore) loadMoreState.value = LOADMORE_STATE_COMPLETE
                     error(response.msg)
                 }
             }catch (e: Exception){
                 Log.e(TAG,"error",e)
                 status.postValue(ERROR)
+                if(isLoadMore) loadMoreState.value = LOADMORE_STATE_COMPLETE
                 error(e.message ?: "")
             }finally {
                 end()

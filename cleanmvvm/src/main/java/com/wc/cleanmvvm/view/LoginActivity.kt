@@ -1,7 +1,7 @@
 package com.wc.cleanmvvm.view
 
 import android.view.View
-import com.wc.basic.liveData
+import androidx.lifecycle.MutableLiveData
 import com.wc.cleanmvvm.*
 import com.wc.cleanmvvm.MainViewModel
 import com.wc.cleanmvvm.databinding.ActivityLoginBinding
@@ -17,7 +17,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(){}
 
 class LoginViewModel : BaseViewModel(){
 
-    val userInfo by liveData<UserInfo>(UserInfo("click to start request"))
+    val userInfo = MutableLiveData<UserInfo>(UserInfo("click to start request"))
 
     override fun onClick(v: View?) {
         when(v?.id) {

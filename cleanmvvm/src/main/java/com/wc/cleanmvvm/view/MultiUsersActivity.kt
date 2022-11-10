@@ -14,10 +14,11 @@ import androidx.databinding.ObservableArrayList
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.loongwind.ardf.recycleview.BaseBindingAdapter
 import com.loongwind.ardf.recycleview.BaseBindingAdapter.ListClick
-import com.wc.basic.liveData
+import com.wc.basic.getBinding
 import com.wc.basic.observe
 import com.wc.cleanmvvm.*
 import com.wc.cleanmvvm.databinding.*
@@ -25,15 +26,19 @@ import com.wc.cleanmvvm.databinding.*
 class MultiUsersActivity : BaseActivity<ActivityMultiUsersBinding, MultiUsersViewModel>(){
 
     override fun initView() {
+        val adapter = mBinding.rcvUsers.adapter as BaseBindingAdapter<*,*>
+
         /*添加header*/
-        val binding = HeaderUserBinding.inflate(LayoutInflater.from(this))
-        binding.vm = mViewModel
-        (mBinding.rcvUsers.adapter as BaseBindingAdapter<*,*>).headers.add(binding)
+        adapter.headers.add(getBinding(HeaderUserBinding::class.java,BR.vm,mViewModel,mBinding.rcvUsers))
+        /**添加footer*/
+        adapter.footers.add(getBinding(FooterLoadstateBinding::class.java,BR.vm,mViewModel,mBinding.rcvUsers))
+
+        mBinding.rcvUsers.addOnScrollListener(BaseBindingAdapter.OnLoadModeCallback(mViewModel))
     }
 
 }
 
-class MultiUsersViewModel : BaseViewModel() , ListClick<UserInfo> {
+class MultiUsersViewModel : BaseViewModel() , ListClick<UserInfo> ,BaseBindingAdapter.LoadMoreCallback{
 
     val users = ObservableArrayList<UserInfo>()
     val headerText = "User Header"
@@ -44,6 +49,8 @@ class MultiUsersViewModel : BaseViewModel() , ListClick<UserInfo> {
     }
 
     override fun onResume() = listRequest(users,{api.getUsers()})
+
+    override fun onLoadMore() = listRequest(users,{api.getUsers()},isLoadMore = true)
 
     override fun onClick(v: View?) =
         Toast.makeText(v?.context,"Header Click",Toast.LENGTH_SHORT).show()
