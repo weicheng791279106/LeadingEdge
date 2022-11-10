@@ -94,12 +94,8 @@ open class BaseViewModel : ViewModel() , LifecycleEventObserver , View.OnClickLi
         if(isLoadMore && (loadMoreState.value.equals(LOADMORE_STATE_END) || loadMoreState.value.equals(LOADMORE_STATE_LOADING))) return
         viewModelScope.launch {
             try{
-                Log.d("aaa","pageNo${pageNo}")
                 if(pageNo < 0)  status.postValue(LOADING)
-                else if(isLoadMore){
-                    loadMoreState.value = LOADMORE_STATE_LOADING
-                    Log.d("aaa","value${loadMoreState.value},Thread:${Thread.currentThread().name}")
-                }
+                else if(isLoadMore) loadMoreState.value = LOADMORE_STATE_LOADING
                 val response = request()
                 if(response.code == SUCCEED){
                     status.postValue(NORMAL)
