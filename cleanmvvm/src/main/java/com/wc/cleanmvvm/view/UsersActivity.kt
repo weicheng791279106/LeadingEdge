@@ -10,6 +10,7 @@ import androidx.annotation.NonNull
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -27,17 +28,13 @@ class UsersViewModel : BaseViewModel() , ListClick<UserInfo> {
 
     val users = ObservableArrayList<UserInfo>()
 
-    override fun onResume() {
-        listRequest(users,{api.getUsers()})
-    }
+    override fun onResume(source: LifecycleOwner) = listRequest(users,{api.getUsers()})
 
-    override fun onItemClick(v: View, item: UserInfo, pos: Int) {
+    override fun onItemClick(v: View, item: UserInfo, pos: Int) =
         Toast.makeText(v.context,"Item点击 $pos",Toast.LENGTH_SHORT).show()
-    }
 
-    override fun onViewClick(v: View, item: UserInfo, pos: Int) {
+    override fun onViewClick(v: View, item: UserInfo, pos: Int) =
         Toast.makeText(v.context,"Item view 点击 $pos",Toast.LENGTH_SHORT).show()
-    }
 
 }
 

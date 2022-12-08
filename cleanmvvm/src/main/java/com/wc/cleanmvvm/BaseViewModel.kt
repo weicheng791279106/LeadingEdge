@@ -34,22 +34,22 @@ open class BaseViewModel : ViewModel() , LifecycleEventObserver , View.OnClickLi
      * */
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         when(event){
-            Lifecycle.Event.ON_CREATE -> onCreate()
-            Lifecycle.Event.ON_START -> onStart()
-            Lifecycle.Event.ON_RESUME -> onResume()
-            Lifecycle.Event.ON_PAUSE -> onPause()
-            Lifecycle.Event.ON_STOP -> onStop()
-            Lifecycle.Event.ON_DESTROY -> onDestroy()
+            Lifecycle.Event.ON_CREATE -> onCreate(source)
+            Lifecycle.Event.ON_START -> onStart(source)
+            Lifecycle.Event.ON_RESUME -> onResume(source)
+            Lifecycle.Event.ON_PAUSE -> onPause(source)
+            Lifecycle.Event.ON_STOP -> onStop(source)
+            Lifecycle.Event.ON_DESTROY -> onDestroy(source)
         }
     }
 
     override fun onClick(v: View?) {}
-    open fun onCreate() {}
-    open fun onStart() {}
-    open fun onResume() {}
-    open fun onPause() {}
-    open fun onStop() {}
-    open fun onDestroy() {}
+    open fun onCreate(source: LifecycleOwner) {}
+    open fun onStart(source: LifecycleOwner) {}
+    open fun onResume(source: LifecycleOwner) {}
+    open fun onPause(source: LifecycleOwner) {}
+    open fun onStop(source: LifecycleOwner) {}
+    open fun onDestroy(source: LifecycleOwner) {}
 
     /**
      * 请求详情数据并更新到指定liveData，统一错误处理逻辑

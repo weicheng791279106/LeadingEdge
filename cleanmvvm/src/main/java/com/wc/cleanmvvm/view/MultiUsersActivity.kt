@@ -12,6 +12,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -48,7 +49,7 @@ class MultiUsersViewModel : BaseViewModel() , ListClick<UserInfo> ,BaseBindingAd
         override fun getItemLayout(viewType: Int): Int  = if(viewType == 1) R.layout.item_user else R.layout.item_user2
     }
 
-    override fun onResume() = listRequest(users,{api.getUsers()})
+    override fun onResume(source: LifecycleOwner) = listRequest(users,{api.getUsers()})
 
     override fun onLoadMore() = listRequest(users,{api.getUsers()},isLoadMore = true)
 
