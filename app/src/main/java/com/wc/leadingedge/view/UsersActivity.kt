@@ -1,4 +1,4 @@
-package com.wc.cleanmvvm.view
+package com.wc.leadingedge.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,10 +17,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.loongwind.ardf.recycleview.BaseBindingAdapter
 import com.loongwind.ardf.recycleview.BaseBindingAdapter.ListClick
 import com.wc.basic.observe
-import com.wc.cleanmvvm.*
-import com.wc.cleanmvvm.databinding.ActivityMainBinding
-import com.wc.cleanmvvm.databinding.ActivityUsersBinding
-import com.wc.cleanmvvm.databinding.ItemUserBinding
+import com.wc.cleanmvvm.BaseActivity
+import com.wc.cleanmvvm.BaseViewModel
+import com.wc.leadingedge.UserInfo
+import com.wc.leadingedge.api
+import com.wc.leadingedge.databinding.ActivityUsersBinding
 
 class UsersActivity : BaseActivity<ActivityUsersBinding, UsersViewModel>(){}
 

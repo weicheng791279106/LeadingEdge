@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.wc.cleanmvvm.view.UsersViewModel" />
+            type="com.wc.leadingedge.view.MultiUsersViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:itemLayout="@{@layout/item_user}"
-        app:data="@{vm.users}"
-        app:listClick="@{vm}"
+        data="@{vm.users}"
+        listClick="@{vm}"
+        itemViewType="@{vm.itemView}"
         />
 
 </layout>

@@ -23,8 +23,6 @@
             android:text="@{vm.loadMoreState}"
             />
 
-        <!--android:text="@{vm.loadMoreState}"-->
-
     </FrameLayout>
 
 </layout>

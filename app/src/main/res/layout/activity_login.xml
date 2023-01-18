@@ -7,7 +7,7 @@
     <data>
         <variable
             name="vm"
-            type="com.wc.cleanmvvm.view.LoginViewModel" />
+            type="com.wc.leadingedge.view.LoginViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat

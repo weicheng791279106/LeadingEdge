@@ -1,4 +1,4 @@
-package com.wc.cleanmvvm
+package com.wc.leadingedge.view
 
 import android.content.Intent
 import android.util.Log
@@ -9,10 +9,11 @@ import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.wc.basic.id
 import com.wc.basic.observe
-import com.wc.cleanmvvm.databinding.ActivityMainBinding
-import com.wc.cleanmvvm.view.LoginActivity
-import com.wc.cleanmvvm.view.MultiUsersActivity
-import com.wc.cleanmvvm.view.UsersActivity
+import com.wc.cleanmvvm.BaseActivity
+import com.wc.cleanmvvm.BaseViewModel
+import com.wc.leadingedge.R
+import com.wc.leadingedge.UserInfo
+import com.wc.leadingedge.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ import java.util.*
  * Author: weicheng
  * Date:  2022/10/31
  */
-class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(){}
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){}
 
 class MainViewModel : BaseViewModel(){
 

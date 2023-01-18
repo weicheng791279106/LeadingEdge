@@ -1,7 +1,9 @@
-package com.wc.cleanmvvm
+package com.wc.leadingedge
 
 import android.util.Log
 import com.google.gson.Gson
+import com.wc.cleanmvvm.Response
+import com.wc.cleanmvvm.SUCCEED
 import okhttp3.Interceptor
 import okhttp3.MediaType
 import okhttp3.Protocol
@@ -17,8 +19,6 @@ import java.lang.RuntimeException
  * Date:  2022/11/1
  */
 
-data class Response<T>(val code:Int = SUCCEED,val msg:String = "",val data:T){}
-
 data class UserInfo(val userName: String = ""){}
 
 val api by lazy(LazyThreadSafetyMode.SYNCHRONIZED){
@@ -28,7 +28,7 @@ val api by lazy(LazyThreadSafetyMode.SYNCHRONIZED){
 interface Api {
 
     @GET("getUserData")
-    suspend fun getUserData():Response<UserInfo>
+    suspend fun getUserData(): Response<UserInfo>
 
     @GET("getUsers")
     suspend fun getUsers():Response<List<UserInfo>>

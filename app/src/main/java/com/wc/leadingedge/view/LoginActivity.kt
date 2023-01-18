@@ -1,10 +1,13 @@
-package com.wc.cleanmvvm.view
+package com.wc.leadingedge.view
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.wc.cleanmvvm.*
-import com.wc.cleanmvvm.MainViewModel
-import com.wc.cleanmvvm.databinding.ActivityLoginBinding
+import com.wc.cleanmvvm.BaseActivity
+import com.wc.cleanmvvm.BaseViewModel
+import com.wc.leadingedge.R
+import com.wc.leadingedge.UserInfo
+import com.wc.leadingedge.api
+import com.wc.leadingedge.databinding.ActivityLoginBinding
 
 /**
  * ProjectName:  LeadingEdge
